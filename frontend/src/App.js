@@ -98,11 +98,11 @@ export const App = () => {
 
     const {id, title, description, complete} = body;
 
-    const newBody = { title, description, complete };
+    const newBody = { title, description, complete: !complete };
 
     const resp = await api.updateTodo(id, newBody);
     if (resp.success) {
-      setTodos(resp.data);
+      listData();
     }
     setIsLoading(false);
   }

@@ -42,7 +42,7 @@ export const createTodo = async (body) => {
 
 export const updateTodo = async (id, body) => {
 
-    const resp = await Axios.put(`${SERVER}/todos/${id}`, body);
+    const resp = await Axios.put(`${SERVER}/todos/${id}/`, body);
 
     if( resp.status === 200 ) {
         return {
@@ -61,7 +61,7 @@ export const updateTodo = async (id, body) => {
 
 export const deleteTodos = async (id) => {
 
-    const resp = await Axios.delete(`${SERVER}/todos/${id}`);
+    const resp = await Axios.delete(`${SERVER}/todos/${id}/`);
 
     if( resp.status === 204 ) {
         return {
