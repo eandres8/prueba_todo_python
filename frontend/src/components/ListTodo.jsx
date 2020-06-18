@@ -35,6 +35,7 @@ export const ListTodo = ({ todos, handleSelected, handleDelete, handleUpdate}) =
                                 edge="start"
                                 checked={value.complete}
                                 disableRipple
+                                onChange={() => handleUpdate(value.id)}
                                 inputProps={{ 'aria-labelledby': labelId }}
                             />
                         </ListItemIcon>
@@ -42,10 +43,13 @@ export const ListTodo = ({ todos, handleSelected, handleDelete, handleUpdate}) =
                         <ListItemText id={labelId} primary={value.description} />
                         <ListItemText id={labelId} primary={value.create_at} />
                         <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="comments" onClick={() => handleSelected(value)}>
+                            <IconButton edge="end" aria-label="comments" onClick={() => {
+                                console.log(value);
+                                handleSelected(value);
+                            }}>
                                 <Edit />
                             </IconButton>
-                            <IconButton edge="end" aria-label="comments">
+                            <IconButton edge="end" aria-label="comments" onClick={() => handleDelete(value.id)}>
                                 <Delete />
                             </IconButton>
                         </ListItemSecondaryAction>

@@ -44,29 +44,90 @@ export const App = () => {
   const listData = async () => {
     setIsLoading(true);
     const resp = await api.listTodos();
-    console.log(resp);
     if( resp.success ) {
       setTodos(resp.data);
     }
     setIsLoading(false);
   }
 
-  const handleDelete = () => {}
-
   // =======================================================
-  /// Crea un nuevo TODo
+  /// Elimina un todo seleccionado
   // =======================================================
-  const handleSubmit = async (event) => {
+  const handleDelete = async (id) => {
     setIsLoading(true);
-    const resp = await api.createTodo( current );
-    console.log(resp);
+    const resp = await api.deleteTodos(id);
     if (resp.success) {
       setTodos(resp.data);
     }
     setIsLoading(false);
   }
 
-  const handleUpdate = () => {}
+  // =======================================================
+  /// Crea un nuevo TODo
+  // =======================================================
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+
+    if (current.id) {
+      updateTodo(current);
+    } else {
+      createTodo(current);
+    }
+
+  }
+
+  // =======================================================
+  /// Crea un nuevo TODO
+  // =======================================================
+  const createTodo = async (body) => {
+    setIsLoading(true);
+    const resp = await api.createTodo(body);
+    if (resp.success) {
+      listData();
+      setCurrent(dataDefault);
+    }
+    setIsLoading(false);
+  }
+
+  // =======================================================
+  /// Actualiza un TODO seleccionado
+  // =======================================================
+  const updateTodo = async (body) => {
+    setIsLoading(true);
+
+    const {id, title, description, complete} = body;
+
+    const newBody = { title, description, complete };
+
+    const resp = await api.updateTodo(id, newBody);
+    if (resp.success) {
+      setTodos(resp.data);
+    }
+    setIsLoading(false);
+  }
+
+  // =======================================================
+  /// 
+  // =======================================================
+  const handleUpdate = async (id) => {
+    
+    const todo = todos.find(todo => todo.id == id);
+    const newList = todos.map( todo => {
+      if( todo.id == id ) {
+        return {
+          ...todo,
+          complete: (!todo.complete)
+        };
+      }
+
+      return todo;
+    } );
+    setTodos(newList);
+
+    await updateTodo(todo);
+
+  }
 
   useEffect(() => {
     const fetchData = async () => listData();
