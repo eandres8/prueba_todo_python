@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -42,6 +43,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'django_filters',
+    'corsheaders',
 ]
 
 LOCAL_APPS = [
@@ -58,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -83,11 +87,6 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DEFAULT_RENDERER_CLASSES = (
     'rest_framework.renderers.JSONRenderer',
 )
-
-# if DEBUG:
-#     DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
-#         'rest_framework.renderers.BrowsableAPIRenderer',
-#     )
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
@@ -121,6 +120,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
 ]
 
 
